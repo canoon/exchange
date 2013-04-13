@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 
@@ -68,6 +69,29 @@ public class ExchangeTest {
 	   assertThat(e.balance(bob, btc), is(2));
 	   assertThat(e.balance(bill, aud), is(9));
 	   assertThat(e.balance(bill, btc), is(0));
+	}
+	
+	@Test
+	public void performance() {
+		   Exchange e = new Exchange();
+		   Currency aud = new Currency("AUD");
+		   Currency btc = new Currency("BTC");
+		   int pairId = e.createPair(aud, btc);
+		   
+		   User bob = new User("bob");
+		   User bill = new User("bill");
+		   
+		   e.process(new FundsOrder(bob, aud, 1000000));
+		   e.process(new FundsOrder(bill, btc, 100000000));
+		   e.process(new FundsOrder(bob, btc, 1000000));
+		   e.process(new FundsOrder(bill, aud, 100000000));
+		   Random r = new Random();
+		   long start = System.currentTimeMillis();
+		   for (int i = 0; i < 10000000; i++) {
+			   e.process(new BidAskOrder(r.nextBoolean() ? bob : bill, pairId, r.nextBoolean(), r.nextInt(100), r.nextInt(100) + 1));
+		   }
+		   long time = System.currentTimeMillis() - start;
+		   System.out.println(10000000 * 1000 / time);
 	}
 
 }

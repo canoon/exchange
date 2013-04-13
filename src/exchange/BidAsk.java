@@ -14,6 +14,9 @@ public abstract class BidAsk {
 	}
 
 	public BidAsk(int price, int amount, User user, long id) {
+		if (price <= 0) {
+			throw new IllegalArgumentException();
+		}
 		this.price = price;
 		this.amount = amount;
 		this.user = user;

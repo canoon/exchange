@@ -70,6 +70,6 @@ public class Exchange {
 	}
 
 	public void output(Order order) {
-		System.out.println(order.getClass().toString() + ": " + order.toString());
+	//	System.out.println(order.getClass().toString() + ": " + order.toString());
 	}
 }
