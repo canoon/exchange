@@ -1,7 +1,7 @@
-package com.shptech.exchange.orders;
+package exchange.orders;
 
-import com.shptech.exchange.Currency;
-import com.shptech.exchange.User;
+import exchange.Currency;
+import exchange.User;
 
 
 

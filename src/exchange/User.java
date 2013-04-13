@@ -1,4 +1,4 @@
-package com.shptech.exchange;
+package exchange;
 
 public class User {
  

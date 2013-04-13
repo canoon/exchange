@@ -1,4 +1,4 @@
-package com.shptech.exchange;
+package exchange;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,9 +8,9 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.shptech.exchange.orders.BidAskOrder;
-import com.shptech.exchange.orders.PairOrder;
-import com.shptech.exchange.orders.Trade;
+import exchange.orders.BidAskOrder;
+import exchange.orders.PairOrder;
+import exchange.orders.Trade;
 
 public class PairExchange {
 

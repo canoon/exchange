@@ -1,6 +1,6 @@
-package com.shptech.exchange.orders;
+package exchange.orders;
 
-import com.shptech.exchange.User;
+import exchange.User;
 
 public class Trade extends PairOrder {
 	

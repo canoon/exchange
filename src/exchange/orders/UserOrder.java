@@ -1,7 +1,7 @@
-package com.shptech.exchange.orders;
+package exchange.orders;
 
-import com.shptech.exchange.Order;
-import com.shptech.exchange.User;
+import exchange.Order;
+import exchange.User;
 
 public abstract class UserOrder extends Order{
 	

@@ -1,4 +1,4 @@
-package com.shptech.exchange;
+package exchange;
 public abstract class BidAsk {
 	private final int price;
 	private int amount;

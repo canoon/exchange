@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.shptech.exchange.Currency;
-import com.shptech.exchange.Exchange;
-import com.shptech.exchange.PairExchange;
-import com.shptech.exchange.User;
-import com.shptech.exchange.orders.BidAskOrder;
-import com.shptech.exchange.orders.FundsOrder;
+import exchange.Currency;
+import exchange.Exchange;
+import exchange.PairExchange;
+import exchange.User;
+import exchange.orders.BidAskOrder;
+import exchange.orders.FundsOrder;
 import static org.hamcrest.CoreMatchers.*;
 
 public class ExchangeTest {

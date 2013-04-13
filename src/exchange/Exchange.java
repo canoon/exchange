@@ -1,4 +1,4 @@
-package com.shptech.exchange;
+package exchange;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.shptech.exchange.orders.FundsOrder;
-import com.shptech.exchange.orders.PairOrder;
+import exchange.orders.FundsOrder;
+import exchange.orders.PairOrder;
 
 public class Exchange {
 
