@@ -26,6 +26,6 @@ public class FundsOrder extends UserOrder {
 	@Override
 	public String toString() {
 		return "FundsOrder [change=" + change + ", currency=" + currency
-				+ ", getUser()=" + getUser() + ", getId()=" + getId() + "]";
+				+ ", getUser()=" + getUser() + "]";
 	}
 }

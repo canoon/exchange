@@ -10,7 +10,7 @@ import exchange.Currency;
 import exchange.Exchange;
 import exchange.PairExchange;
 import exchange.User;
-import exchange.orders.BidAskOrder;
+import exchange.orders.EnterOrder;
 import exchange.orders.FundsOrder;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -33,8 +33,8 @@ public class ExchangeTest {
 	   assertThat(e.balance(bob, btc), is(0));
 	   assertThat(e.balance(bill, aud), is(0));
 	   assertThat(e.balance(bill, btc), is(1));
-	   e.process(new BidAskOrder(bob, pairId, true, 1, 10));
-	   e.process(new BidAskOrder(bill, pairId, false, 1, 10));
+	   e.process(new EnterOrder(bob, pairId, true, 1, 10));
+	   e.process(new EnterOrder(bill, pairId, false, 1, 10));
 	   assertThat(e.balance(bob, aud), is(0));
 	   assertThat(e.balance(bob, btc), is(1));
 	   assertThat(e.balance(bill, aud), is(10));
@@ -55,15 +55,15 @@ public class ExchangeTest {
 	   
 	   e.process(new FundsOrder(bob, aud, 10));
 	   e.process(new FundsOrder(bill, btc, 1));
-	   e.process(new BidAskOrder(bob, pairId, true, 1, 10));
-	   e.process(new BidAskOrder(bill, pairId, false, 1, 10));
-	   e.process(new BidAskOrder(bill, pairId, true, 1, 10));
-	   e.process(new BidAskOrder(bob, pairId, false, 1, 10));
+	   e.process(new EnterOrder(bob, pairId, true, 1, 10));
+	   e.process(new EnterOrder(bill, pairId, false, 1, 10));
+	   e.process(new EnterOrder(bill, pairId, true, 1, 10));
+	   e.process(new EnterOrder(bob, pairId, false, 1, 10));
 	   
 	   e.process(new FundsOrder(bill, btc, 1));
-	   e.process(new BidAskOrder(bob, pairId, true, 2, 5));
-	   e.process(new BidAskOrder(bill, pairId, false, 1, 4));
-	   e.process(new BidAskOrder(bill, pairId, false, 1, 5));
+	   e.process(new EnterOrder(bob, pairId, true, 2, 5));
+	   e.process(new EnterOrder(bill, pairId, false, 1, 4));
+	   e.process(new EnterOrder(bill, pairId, false, 1, 5));
 	   
 	   assertThat(e.balance(bob, aud), is(0));
 	   assertThat(e.balance(bob, btc), is(2));
@@ -88,7 +88,7 @@ public class ExchangeTest {
 		   Random r = new Random();
 		   long start = System.currentTimeMillis();
 		   for (int i = 0; i < 10000000; i++) {
-			   e.process(new BidAskOrder(r.nextBoolean() ? bob : bill, pairId, r.nextBoolean(), r.nextInt(100), r.nextInt(100) + 1));
+			   e.process(new EnterOrder(r.nextBoolean() ? bob : bill, pairId, r.nextBoolean(), r.nextInt(100), r.nextInt(100) + 1));
 		   }
 		   long time = System.currentTimeMillis() - start;
 		   System.out.println(10000000 * 1000 / time);

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import exchange.orders.EnterOrder;
 import exchange.orders.FundsOrder;
 import exchange.orders.PairOrder;
 
@@ -55,6 +56,32 @@ public class Exchange {
 					((FundsOrder) order).getCurrency(),
 					((FundsOrder) order).getChange());
 		} else if (order instanceof PairOrder) {
+			PairExchange pair = pairs.get(((PairOrder) order).getPair());
+			
+			if (order instanceof EnterOrder) {
+				// fund order
+				if (((EnterOrder) order).isBid()) {
+					
+					int required;
+					Currency currency;
+					if (((EnterOrder) order).isBid()) {
+						currency = pair.getFirst();
+						required = ((EnterOrder) order).getAmount() * ((EnterOrder) order).getPrice();
+					} else {
+						currency = pair.getSecond();
+						required = ((EnterOrder) order).getAmount();	
+					}
+					int current = balance(((PairOrder) order).getUser(), currency);
+					
+					if (current >= required) {
+						updateChange(((PairOrder) order).getUser(), currency, - required);
+						pair.process((PairOrder) order);
+					} else {
+						System.out.println("bad order");
+					}
+				}
+				
+			}
 			pairs.get(((PairOrder) order).getPair()).process((PairOrder) order);
 
 		}
@@ -70,6 +97,6 @@ public class Exchange {
 	}
 
 	public void output(Order order) {
-	//	System.out.println(order.getClass().toString() + ": " + order.toString());
+		System.out.println(order.getClass().toString() + ": " + order.toString());
 	}
 }

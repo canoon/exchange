@@ -31,7 +31,7 @@ public class Trade extends PairOrder {
 	public String toString() {
 		return "Trade [amount=" + amount + ", price=" + price + ", other="
 				+ other + ", getPair()=" + getPair() + ", getUser()="
-				+ getUser() + ", getId()=" + getId() + "]";
+				+ getUser() + "]";
 	}
 
 }

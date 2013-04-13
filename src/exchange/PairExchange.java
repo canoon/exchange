@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import exchange.orders.BidAskOrder;
+import exchange.orders.EnterOrder;
 import exchange.orders.PairOrder;
 import exchange.orders.Trade;
 
@@ -43,17 +43,6 @@ public class PairExchange {
 	private void processPurchase(User user, boolean isBid, int price, int amount) {
 		if (isBid) {
 			if (amount > 0) {
-				int balance = exchange.balance(user, currency);
-				if (balance < price * amount) {
-					amount = balance / price;
-				}
-				if (amount == 0) {
-					return;
-				}
-
-				exchange.updateChange(user, currency, -(amount * price));
-
-				exchange.output(new BidAskOrder(user, id, isBid, amount, price));
 				Iterator<Ask> it = asks.iterator();
 				while (it.hasNext() && amount > 0) {
 					Ask ask = it.next();
@@ -75,44 +64,9 @@ public class PairExchange {
 				if (amount > 0) {
 					bids.add(new Bid(price, amount, user, count++));
 				}
-			} else if (amount < 0) {
-				int balance = exchange.balance(user, commodity);
-				if (balance < amount) {
-					amount = balance;
-				}
-				exchange.updateChange(user, commodity, -amount);
-				Iterator<Bid> it = bids.iterator();
-				while (it.hasNext() && amount < 0) {
-					BidAsk bid = it.next();
-					if (bid.getUser() == user && bid.getPrice() == price) {
-						int removeAmount;
-						if (bid.getAmount() > -amount) {
-							bid.spendAmount(-amount);
-							removeAmount = -amount;
-						} else {
-							it.remove();
-							removeAmount = bid.getAmount();
-						}
-						amount -= removeAmount;
-						exchange.output(new BidAskOrder(user, id, isBid,
-								-removeAmount, price));
-
-						exchange.updateChange(user, currency, price
-								* removeAmount);
-					}
-				}
 			}
 		} else {
 			if (amount > 0) {
-				int balance = exchange.balance(user, commodity);
-				if (balance < amount) {
-					amount = balance / price;
-				}
-				if (amount == 0) {
-					return;
-				}
-				exchange.updateChange(user, commodity, -amount);
-				exchange.output(new BidAskOrder(user, id, isBid, amount, price));
 				Iterator<Bid> it = bids.iterator();
 				while (it.hasNext() && amount > 0) {
 					BidAsk bid = it.next();
@@ -134,36 +88,17 @@ public class PairExchange {
 				if (amount > 0) {
 					asks.add(new Ask(price, amount, user, count++));
 				}
-			} else if (amount < 0) {
-				Iterator<Ask> it = asks.iterator();
-				while (it.hasNext() && amount < 0) {
-					BidAsk ask = it.next();
-					if (ask.getUser() == user && ask.getPrice() == price) {
-						int removeAmount;
-						if (ask.getAmount() > -amount) {
-							ask.spendAmount(-amount);
-							removeAmount = -amount;
-						} else {
-							it.remove();
-							removeAmount = ask.getAmount();
-						}
-						amount -= removeAmount;
-
-						exchange.output(new BidAskOrder(user, id, isBid,
-								-removeAmount, price));
-						exchange.updateChange(user, commodity, removeAmount);
-					}
-				}
 			}
 		}
 	}
 
 	public void process(PairOrder pairOrder) {
-		if (pairOrder instanceof BidAskOrder) {
+		if (pairOrder instanceof EnterOrder) {
+			exchange.output(pairOrder);
 			processPurchase(pairOrder.getUser(),
-					((BidAskOrder) pairOrder).isBid(),
-					((BidAskOrder) pairOrder).getPrice(),
-					((BidAskOrder) pairOrder).getAmount());
+					((EnterOrder) pairOrder).isBid(),
+					((EnterOrder) pairOrder).getPrice(),
+					((EnterOrder) pairOrder).getAmount());
 		}
 	}
 
